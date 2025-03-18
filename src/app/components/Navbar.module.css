@@ -1,14 +1,20 @@
-#nav{
-    
- 
-    display: flex;
-}
-#a{
-    margin-left: 40rem;
-    font-size: 40px;
-}
-#pic{
-    height: 50px;
-    width:10px;
-    margin-top: 200rem;
-}
+/* Navbar.module.css */
+.link {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 8px 16px;
+    color: #333; /* Couleur par défaut */
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .link:hover {
+    background-color: #f0f0f0; /* Couleur de fond au survol */
+    color: #000; /* Couleur du texte au survol */
+  }
+  
+  .active {
+    color: black;
+    background-color: #d1d1d1; /* Fond pour le lien actif */
+    border-radius: 5px;
+  }
+  

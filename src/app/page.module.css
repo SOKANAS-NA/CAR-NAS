@@ -1,0 +1,22 @@
+
+.text {
+    font-size: 40px;
+    
+    margin-top: 9rem;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    position: absolute;
+   
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    color: white;
+    text-align: center;
+}
+@media screen and (max-width:972px){
+    .text{
+        margin-top: 15rem;
+       
+    }
+    
+
+}

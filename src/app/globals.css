@@ -1,15 +1,11 @@
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Styles globaux */
+/* Mode clair */
 body {
-  font-family: Arial, sans-serif;
-  
-  color: #333;
+  background-color: white; /* Fond clair */
+  color: black; /* Texte sombre */
 }
 
-
+/* Mode sombre */
+body.dark-theme {
+  background-color: black; /* Fond sombre */
+  color: white; /* Texte blanc */
+}

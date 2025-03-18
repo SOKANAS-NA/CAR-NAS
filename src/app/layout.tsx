@@ -1,21 +1,19 @@
-import "./globals.css"; // Import global styles here
+import "./globals.css";
 import { ReactNode } from "react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
 export const metadata = {
-  title: "Mon Site Next.js",
-  description: "Un site performant avec Next.js",
+  title: "AutoNas",
+  description: "Concéssionaire de voitures de luxe",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="fr">
       <head>
-        <link
-          href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-          rel="stylesheet"
-        />
+  
+        <script src="https://cdn.tailwindcss.com"></script>
       </head>
       <body className="bg-gray-100">
         {/* Navbar and Footer are now inside the body */}
