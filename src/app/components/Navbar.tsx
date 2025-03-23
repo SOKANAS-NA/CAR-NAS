@@ -166,7 +166,7 @@ const Navbar: React.FC = () => {
       >
         <div className="flex justify-end p-4">
           <button onClick={() => setIsOpen(false)}>
-            <X size={28} className="text-black hover:text-red-500" />
+            <X size={28} className="text-black hover:text-red-500 mt-5" />
           </button>
         </div>
         <nav className="flex flex-col items-center gap-2 mt-2 text-lg bg-white">

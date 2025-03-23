@@ -110,7 +110,6 @@ const CarsPage = () => {
     });
   };
 
-  // Filtered cars logic
   const filteredCars = cars.filter((car) => {
     const matchesSearchTerm = car.model
       .toLowerCase()
@@ -139,13 +138,13 @@ const CarsPage = () => {
     return matchesSearchTerm && matchesPrice && matchesYear;
   });
 
-  // Get all favorites cars
+
   const favoriteCars = cars.filter(car => favorites.includes(car.id));
   
-  // Get all cart cars
+
   const cartCars = cars.filter(car => cart.includes(car.id));
   
-  // Calculate cart total
+
   const cartTotal = cartCars.reduce((total, car) => total + car.price, 0);
 
   return (
