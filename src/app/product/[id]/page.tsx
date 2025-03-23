@@ -39,7 +39,7 @@ const ProductPage = () => {
   if (isLoading || !car) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <p className="text-2xl font-bold">Chargement...</p>
+        <p className="text-2xl font-bold">LOANDING...</p>
       </div>
     );
   }

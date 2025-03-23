@@ -4,35 +4,40 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Moon, Sun } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faShoppingBag } from "@fortawesome/free-solid-svg-icons";
 
 const Navbar: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [theme, setTheme] = useState("light");
-  const [showCartDetails, setShowCartDetails] = useState(false);
-  const [showFavoritesDetails, setShowFavoritesDetails] = useState(false);
-  const [favoritesCount, setFavoritesCount] = useState(0);
-  const [cartCount, setCartCount] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);//USESTATE POUR LE MENU BURGARE
+  const [theme, setTheme] = useState("light");//USESTATE POUR LE DARK/LIGHT MODE DONC PAR DEF IL EST LIGHT
+  const [showCartDetails, setShowCartDetails] = useState(false);//USESTATE POUR LA CARTE DE PANIER AU DEBUT NON VISULLE
+  const [showFavoritesDetails, setShowFavoritesDetails] = useState(false);//IDEM QUE LA PRECEDENTE USESTATE POUR LES FAVORIS AU DEBUT NON VISULLE
+  const [favoritesCount, setFavoritesCount] = useState(0);//USESTAT POUR LE COMPTEUR DES FAVORIS
+  const [cartCount, setCartCount] = useState(0);//USESTATE POUR LE COUNTER DE PANIER
+  
+    // ON IMPORTE LE USEPATHNAME DONNE PAR LE PACKAGE NEXT JS ET ON L UTILISE POUR CREER DES MENU DYYNAMIQUE EN FONCTION DU CHEMIN DANS LEQUEL ON SE TROUVE DANS LE CAS DE MON SITE UNE FOIS QUE SWITCH DE PAGE UNE BARRE HORIZONTALE ROUGE APPARAIT EN DESSOUS DE CHAQUE LIEN ACTUEL 
   const pathname = usePathname();
 
-  // Détermine la classe active pour les liens
+  // CETTE FONCTIONNALITE DE NE MARCHE QUE COTE CLIENT ET NON SERVEUR
   const linkClass = (path: string) =>
     `relative px-4 py-2 transition duration-300 ${
       pathname === path ? "font-bold border-b-2 border-red-500" : "hover:text-red-500"
-    }`;
+    }`;   // ICI LE PATH REPRESENTE LECHEMIN ACTUEL AVEC COMPORTEMENT CONDITIONEL
 
   useEffect(() => {
-    // Récupère le thème enregistré dans localStorage
-    const storedTheme = localStorage.getItem("theme") || "light";
-    setTheme(storedTheme);
+    // LOCAL STORAGE EST UNE API OU LES DONNE SONT STOQUE COTE NAVOGATUER DE L UTILSATEUR MEME APRES FERMETURE DE L ONGLET 
+    const storedTheme = localStorage.getItem("theme") || "light";//SI THEME N EST PAS ENCORE DEFINIT IL RETOURNE LIGHT PAR DEFAUT
+    setTheme(storedTheme); //MISE A JOUR DU THEME DE L ETAT THEME AVEC LA VALEUR LIGHT
     // Applique la classe dark-theme en fonction du thème
     if (storedTheme === "dark") {
       document.body.classList.add("dark-theme");
     } else {
       document.body.classList.remove("dark-theme");
     }
+//DANS GLOBAL CSS ON APPLIQUE LES COULEUR DE BASE QUAND LE SITE EST EN LIGHT TEXTE NOIR/ BACK EN BLACK ET L INVERSE QUAND IL EST EN DARKMODE TEXTE BLANC BACK EN NOIR 
+
+
 
     // Fonction pour charger les compteurs depuis localStorage
     const loadCounts = () => {
@@ -237,11 +242,7 @@ const Navbar: React.FC = () => {
               className="p-2 text-white transition duration-300 hover:text-red-500"
               aria-label="Toggle Dark/Light Mode"
             >
-              {theme === "light" ? (
-                <span role="img" aria-label="moon">🌙</span>  // Icône de lune pour le mode sombre
-              ) : (
-                <span role="img" aria-label="sun">🌞</span>  // Icône de soleil pour le mode clair
-              )}
+              {theme === "light" ? <Moon color="white" size={30} /> : <Sun color="white" size={30} />}
             </button>
           </div>
         </div>

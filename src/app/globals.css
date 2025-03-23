@@ -1,11 +1,16 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;700&display=swap');
+
 /* Mode clair */
 body {
   background-color: white; /* Fond clair */
   color: black; /* Texte sombre */
+  font-family: 'Helvetica Neue', sans-serif; 
 }
 
 /* Mode sombre */
 body.dark-theme {
   background-color: black; /* Fond sombre */
   color: white; /* Texte blanc */
+  font-family: 'Helvetica Neue', sans-serif; 
 }

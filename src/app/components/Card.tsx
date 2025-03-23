@@ -10,7 +10,7 @@ interface Car {
   image?: string;
 }
 
-interface CarCardProps {
+interface CarCard {
   car: Car;
   isFavorite: boolean;
   isInCart: boolean;
@@ -18,7 +18,7 @@ interface CarCardProps {
   toggleCart: (id: number) => void;
 }
 
-const CarCard: React.FC<CarCardProps> = ({
+const CarCard: React.FC<CarCard> = ({
   car,
   isFavorite,
   isInCart,
@@ -29,7 +29,7 @@ const CarCard: React.FC<CarCardProps> = ({
 
   return (
     <Link href={`/product/${car.id}`} passHref>
-      <div className="bg-white shadow-md rounded-lg overflow-hidden p-4 flex flex-col items-center cursor-pointer hover:shadow-xl transition duration-300">
+      <div className="bg-white shadow-md rounded-lg overflow-hidden p-4 flex flex-col items-center cursor-pointer hover:shadow-xl transition duration-300 ">
         {car.image ? (
           <img
             src={car.image}

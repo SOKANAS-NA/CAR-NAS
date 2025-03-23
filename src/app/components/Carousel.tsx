@@ -11,7 +11,8 @@ const images = [
 
 function Carousel() {
   return (
-    <div className="relative w-full rounded-lg shadow-lg overflow-hidden">
+    <div className="relative w-[80%] mx-auto rounded-lg shadow-lg overflow-hidden">
+
       {/* Carrousel */}
       <ImageSlider imageUrls={images} />
 

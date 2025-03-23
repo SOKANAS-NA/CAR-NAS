@@ -5,6 +5,12 @@ interface Car {
   name: string;
   price: number;
   image: string;
+  model:string;
+  year:number;
+  color:string;
+  state:string;
+
+
 }
 
 export const UseCars = () => {
@@ -28,8 +34,9 @@ export const UseCars = () => {
       }
     };
 
-    fetchCars();
+    fetchCars();//VA CHERCHER CARS
   }, []);
+  
 
   return { cars, isLoading };
 };
