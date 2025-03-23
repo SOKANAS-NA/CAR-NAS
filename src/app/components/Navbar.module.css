@@ -1,20 +1,20 @@
-/* Navbar.module.css */
+
 .link {
     font-size: 16px;
     font-weight: bold;
     padding: 8px 16px;
-    color: #333; /* Couleur par défaut */
+    color: #333; 
     transition: background-color 0.3s ease, color 0.3s ease;
   }
   
   .link:hover {
-    background-color: #f0f0f0; /* Couleur de fond au survol */
-    color: #000; /* Couleur du texte au survol */
+    background-color: #f0f0f0; 
+    color: #000; 
   }
   
   .active {
     color: black;
-    background-color: #d1d1d1; /* Fond pour le lien actif */
+    background-color: #d1d1d1; 
     border-radius: 5px;
   }
   

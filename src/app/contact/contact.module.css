@@ -35,7 +35,7 @@
     color: azure;
   }
   
-  .formContainer ul { /* Ajout d'une classe locale */
+  .formContainer ul { 
     list-style: none;
     padding: 0;
   

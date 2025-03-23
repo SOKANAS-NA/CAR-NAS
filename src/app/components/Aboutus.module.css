@@ -1,6 +1,4 @@
-/* Aboutus.module.css */
 
-/* Container for the entire Contact section */
 #Contactt {
     padding: 20px;
     margin-top: 5rem;
@@ -14,7 +12,7 @@
   }
   
   
-  /* Styling the contact section */
+ 
   .cont {
     display: flex;
     gap: 20px;
@@ -26,7 +24,7 @@
     max-width: 1200px;
   }
   
-  /* Contact info section styling */
+  
   .contact {
     width: 60%;
     text-align: center;
@@ -37,7 +35,7 @@
     
   }
   
-  /* Google Maps iframe styling */
+
   .cont iframe {
     width: 60rem;
     height: 31rem;
@@ -47,7 +45,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
-  /* Contact section content */
+ 
   .contact-section {
     max-width: 800px;
     margin: 50px auto;
@@ -58,7 +56,7 @@
     height: 31rem;
   }
   
-  /* Title styling */
+  
   .contact-section h1 {
     text-align: center;
     color: white;
@@ -67,7 +65,7 @@
     font-style: italic;
   }
   
-  /* Text styling */
+ 
   .contact-section p {
     font-size: 1.5rem;
     color: #555;
@@ -90,7 +88,7 @@
     text-decoration: underline;
   }
   
-  /* Media query for small screens */
+  
   @media (max-width: 768px) {
     .cont {
       flex-direction: column;
@@ -108,7 +106,7 @@
     }
   }
   
-  /* Adjustments for very small screens (mobile) */
+  
   @media screen and (max-width: 480px) {
     .cont iframe {
       height: 20rem;

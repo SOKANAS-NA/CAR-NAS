@@ -15,7 +15,7 @@ interface Car {
   image: string;
 }
 
-// Fonction pour mélanger un tableau (Algorithme de Fisher-Yates)
+// Fonction pour melanger le tableau
 const shuffleArray = (array: any[]) => {
   return array.sort(() => Math.random() - 0.5);
 };
@@ -74,7 +74,7 @@ export default function Home() {
     ) : (
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 p-10 ">
         {cars.map((car, index) => (
-          <motion.div
+          <motion.div 
             key={car.id}
             className="bg-gradient-to-b from-[#8B5E3C] to-[#EED9C4] p-6 rounded-lg shadow-lg h-[450px] flex flex-col transition-transform w-full duration-300 hover:scale-105"
             initial={{ opacity: 0, y: 50 }}

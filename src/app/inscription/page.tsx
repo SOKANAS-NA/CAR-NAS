@@ -15,8 +15,6 @@ const Register = () => {
       alert("Les mots de passe ne correspondent pas.");
       return;
     }
-    // Ajoutez la logique d'inscription ici, comme une requête API pour enregistrer l'utilisateur.
-    console.log("Inscription avec", email, password);
   };
 
   return (

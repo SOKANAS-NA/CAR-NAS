@@ -187,7 +187,7 @@ const Navbar: React.FC = () => {
                     Click to see your cart details
                   </div>
                   <div className="px-4 py-2">
-                    <Link href="/cart" className="block w-full text-center bg-black text-white px-4 py-2 rounded hover:bg-gray-800">
+                    <Link href="/carte" className="block w-full text-center bg-black text-white px-4 py-2 rounded hover:bg-gray-800">
                       View Cart
                     </Link>
                   </div>
@@ -196,7 +196,7 @@ const Navbar: React.FC = () => {
             </div>
           </div>
 
-          {/* Bouton Mode + Icônes Mobile */}
+          {/* Bouton Mode + Icones Mobile */}
           <div className="flex items-center gap-3">
             {/* Icônes panier et favoris pour mobile */}
             <div className="flex md:hidden items-center gap-2">

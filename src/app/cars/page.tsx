@@ -2,7 +2,7 @@
 import "ldrs/ring";
 
 import React, { useState, useEffect } from "react";
-import { UseCars } from "../api/userCards"; // Vous devrez peut-être adapter cet import en fonction de votre implémentation
+import { UseCars } from "../api/userCards"; //RECUPERATION DES DONNE DE L API STOCKE DANS data
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeart,

@@ -10,7 +10,7 @@ const Login = () => {
   // Fonction pour gérer la soumission du formulaire
   const handleLogin = (e: FormEvent) => {
     e.preventDefault();
-    // Ajoutez la logique de connexion ici, comme une requête API pour authentifier l'utilisateur.
+   
     console.log("Connexion avec", email, password);
   };
 

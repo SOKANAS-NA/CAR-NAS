@@ -22,7 +22,7 @@ const Contact: React.FC = () => {
 
     console.log("Form Data Submitted:", formData);
 
-    // Reset form fields after submission
+ 
     setFormData({ name: "", email: "", message: "" });
   };
 
