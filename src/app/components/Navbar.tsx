@@ -129,101 +129,11 @@ const Navbar: React.FC = () => {
             </Link>
           </div>
 
-          {/* Icônes de panier et favoris Desktop */}
-          <div className="hidden md:flex items-center gap-4 text-white">
-            {/* Icône Favoris */}
-            <div className="relative">
-              <button 
-                className="p-2 text-white transition duration-300 hover:text-red-500"
-                onClick={() => setShowFavoritesDetails(!showFavoritesDetails)}
-              >
-                <FontAwesomeIcon icon={faHeart} className="w-5 h-5" />
-                {favoritesCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                    {favoritesCount}
-                  </span>
-                )}
-              </button>
-              
-              {/* Popup détail des favoris */}
-              {showFavoritesDetails && (
-                <div className="absolute right-0 mt-2 w-64 bg-white rounded-md shadow-lg py-2 z-50">
-                  <div className="px-4 py-2 text-black font-medium border-b">
-                    {favoritesCount} {favoritesCount === 1 ? 'item' : 'items'} in favorites
-                  </div>
-                  <div className="px-4 py-2 text-sm text-gray-700">
-                    Click to see your favorites list
-                  </div>
-                  <div className="px-4 py-2">
-                    <Link href="/favorites" className="block w-full text-center bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
-                      View Favorites
-                    </Link>
-                  </div>
-                </div>
-              )}
-            </div>
-            
-            {/* Icône Panier */}
-            <div className="relative">
-              <button 
-                className="p-2 text-white transition duration-300 hover:text-red-500"
-                onClick={() => setShowCartDetails(!showCartDetails)}
-              >
-                <FontAwesomeIcon icon={faShoppingBag} className="w-5 h-5" />
-                {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                    {cartCount}
-                  </span>
-                )}
-              </button>
-              
-              {/* Popup détail du panier */}
-              {showCartDetails && (
-                <div className="absolute right-0 mt-2 w-64 bg-white rounded-md shadow-lg py-2 z-50">
-                  <div className="px-4 py-2 text-black font-medium border-b">
-                    {cartCount} {cartCount === 1 ? 'item' : 'items'} in cart
-                  </div>
-                  <div className="px-4 py-2 text-sm text-gray-700">
-                    Click to see your cart details
-                  </div>
-                  <div className="px-4 py-2">
-                    <Link href="/carte" className="block w-full text-center bg-black text-white px-4 py-2 rounded hover:bg-gray-800">
-                      View Cart
-                    </Link>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
+  
 
           {/* Bouton Mode + Icones Mobile */}
           <div className="flex items-center gap-3">
-            {/* Icônes panier et favoris pour mobile */}
-            <div className="flex md:hidden items-center gap-2">
-              {/* Icône Favoris Mobile */}
-              <div className="relative">
-                <Link href="/favorites">
-                  <FontAwesomeIcon icon={faHeart} className="w-5 h-5 text-white" />
-                  {favoritesCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-                      {favoritesCount}
-                    </span>
-                  )}
-                </Link>
-              </div>
-              
-              {/* Icône Panier Mobile */}
-              <div className="relative">
-                <Link href="/cart">
-                  <FontAwesomeIcon icon={faShoppingBag} className="w-5 h-5 text-white" />
-                  {cartCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-                      {cartCount}
-                    </span>
-                  )}
-                </Link>
-              </div>
-            </div>
+            
 
             {/* Bouton Menu Mobile */}
             <div className="md:hidden">
@@ -278,17 +188,7 @@ const Navbar: React.FC = () => {
             REGISTER
           </Link>
 
-          {/* Liens vers favoris et panier dans le menu mobile */}
-          <div className="w-full border-t mt-2 pt-2">
-            <Link href="/favorites" className="flex items-center justify-center gap-2 text-black hover:text-red-500 py-2" onClick={() => setIsOpen(false)}>
-              <FontAwesomeIcon icon={faHeart} className="w-5 h-5" />
-              FAVORITES {favoritesCount > 0 && `(${favoritesCount})`}
-            </Link>
-            <Link href="/cart" className="flex items-center justify-center gap-2 text-black hover:text-red-500 py-2" onClick={() => setIsOpen(false)}>
-              <FontAwesomeIcon icon={faShoppingBag} className="w-5 h-5" />
-              CART {cartCount > 0 && `(${cartCount})`}
-            </Link>
-          </div>
+         
         </nav>
       </div>
     </nav>

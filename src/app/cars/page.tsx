@@ -1,17 +1,18 @@
 "use client";
-import "ldrs/ring";
 
 import React, { useState, useEffect } from "react";
-import { UseCars } from "../api/userCards"; //RECUPERATION DES DONNE DE L API STOCKE DANS data
+import { UseCars } from "../api/userCards";//RECUPERATION DES DONNE DE L API STOCKE DANS data
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeart,
   faShoppingBag,
   faSearch,
+  faTrash,
+  faTimes,
+  faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-
 
 interface Car {
   id: number;
@@ -20,65 +21,99 @@ interface Car {
   price: number;
   year: number;
   image: string;
-  car:string;
+  car: string;
 }
 
 const CarsPage = () => {
-  const { cars} = UseCars();//API CREE DANS DOSSIER API ET IMPORTE afin de l utiliser où je souhaite  
+  const { cars } = UseCars();//hook personalie: API CREE DANS DOSSIER API ET IMPORTE afin de l utiliser où je souhaite  
   const [favorites, setFavorites] = useState<number[]>([]);// STATE POUR STOCKER LES FAVORIS
   const [cart, setCart] = useState<number[]>([]);//STATE POUR STOCKER LE PANIER
   const [searchTerm, setSearchTerm] = useState("");// STATE POUR LE CHAMP DE RECHERCHE
-  const [selectedPriceRange, setSelectedPriceRange] = useState<string>("all"); // Filtre par prix
-  const [selectedYearRange, setSelectedYearRange] = useState<string>("all"); // Filtre par année
-
-
+  const [selectedPriceRange, setSelectedPriceRange] = useState<string>("all");// Filtre par prix
+  const [selectedYearRange, setSelectedYearRange] = useState<string>("all");// Filtre par année
+  
+ 
+  const [showFavorites, setShowFavorites] = useState(false);
+  const [showCart, setShowCart] = useState(false);
  // CHARGEMENT DES DONNEES STOCKEES DANS LOCAL STORAGE AU MONTAGE DU COMPOSANT
   useEffect(() => {
-    try { //EXECUTION DU CODE A L INTERIEUR
-      const savedFavorites = localStorage.getItem("favorites");
-      const savedCart = localStorage.getItem("cart");//RECUPERATION DES DONES CLE FAVORITES ET PANIER
+    try {//EXECUTION DU CODE A L INTERIEUR
+      const savedFavorites = localStorage.getItem("favorites");//RECUPERATION DES DONES CLE FAVORITES ET PANIER
+      const savedCart = localStorage.getItem("cart");
       if (savedFavorites) setFavorites(JSON.parse(savedFavorites));
-      if (savedCart) setCart(JSON.parse(savedCart)); //VALEUR RETOURNEE EN CHAINE DE CARACTERE
-    } catch (error) {//GESTION D ERREUR INTERNE
-      console.error("Erreur lors du chargement des données:", error); //FACILITER LE DEBOGAGE GRACE A CONSOLE LOG
+      if (savedCart) setCart(JSON.parse(savedCart));//VALEUR RETOURNEE EN CHAINE DE CARACTERE
+    } catch (error) {
+      console.error("Erreur lors du chargement des données:", error);
     }
   }, []);
 
-  //Fonction utilitaire en TypeScript qui met à jour le localStorage et envoie un événement personnalisé pour informer dautres parties de l application qu une mise à jour a eu lieu
+
+  useEffect(() => {
+    const handleFavoritesUpdated = () => {
+      const savedFavorites = localStorage.getItem("favorites");
+      if (savedFavorites) setFavorites(JSON.parse(savedFavorites));
+    };
+
+    const handleCartUpdated = () => {
+      const savedCart = localStorage.getItem("cart");
+      if (savedCart) setCart(JSON.parse(savedCart));
+    };
+    //Fonction utilitaire en TypeScript qui met à jour le localStorage et envoie un événement personnalisé pour informer dautres parties de l application qu une mise à jour a eu lieu
+
+    window.addEventListener("favoritesUpdated", handleFavoritesUpdated);
+    window.addEventListener("cartUpdated", handleCartUpdated);
+
+    return () => {
+      window.removeEventListener("favoritesUpdated", handleFavoritesUpdated);
+      window.removeEventListener("cartUpdated", handleCartUpdated);
+    };
+  }, []);
 
   const updateLocalStorageAndDispatchEvent = (key: string, data: number[]) => {
     localStorage.setItem(key, JSON.stringify(data));
-    window.dispatchEvent(new Event(`${key}Updated`));
-  };//INFORMER LES UATRES COMPOSANTS D UNE NOUVELLE MISE A JOUR ET SYNCHRONSISER L ETAT ENTRE PLUSIEURS ONGLETS/FENETRES
-
-
-  //LES FONCTIONS toggleFavorite ET toggleCart AJOUTENT OU SUPPRIMENT UN id D'UNE LISTE (FAVORIS OU PANIER), METTENT À JOUR L'ÉTAT AVEC setFavorites OU setCart, STOCKENT LES DONNÉES DANS localStorage ET ENVOIENT UN ÉVÉNEMENT POUR INFORMER D'AUTRES PARTIES DE L'APPLICATION
+    window.dispatchEvent(new Event(`${key}Updated`)); //INFORMER LES UATRES COMPOSANTS D UNE NOUVELLE MISE A JOUR ET SYNCHRONSISER L ETAT ENTRE PLUSIEURS ONGLETS/FENETRES
+  };
+//LES FONCTIONS toggleFavorite ET toggleCart AJOUTENT OU SUPPRIMENT UN id D'UNE LISTE (FAVORIS OU PANIER), METTENT À JOUR L'ÉTAT AVEC setFavorites OU setCart, STOCKENT LES DONNÉES DANS localStorage ET ENVOIENT UN ÉVÉNEMENT POUR INFORMER D'AUTRES PARTIES DE L'APPLICATION
   const toggleFavorite = (id: number) => {
     setFavorites((prev) => {
-      const updatedFavorites = prev.includes 
-      //L ETAT PRECENDENT RECUPERE
-      (id)
+      const updatedFavorites = prev.includes(id)
         ? prev.filter((item) => item !== id)
-        : [...prev, id];// SI ID EST DEJA PRESENT DANS LA LISTE IL EST SUPPPRIME EN FILTRANT LA LISTE//SINON IL EST AJOUTE DANS LA LISTE 
+        : [...prev, id];
       updateLocalStorageAndDispatchEvent("favorites", updatedFavorites);
-      return updatedFavorites;//MISE A JOUR
+      return updatedFavorites;
     });
   };
 
   const toggleCart = (id: number) => {
     setCart((prev) => {
       const updatedCart = prev.includes(id)
-        ? prev.filter((item) => item !== id)
+        ? prev.filter((item) => item !== id)// SI ID EST DEJA PRESENT DANS LA LISTE IL EST SUPPPRIME EN FILTRANT LA LISTE//SINON IL EST AJOUTE DANS LA LISTE 
         : [...prev, id];
       updateLocalStorageAndDispatchEvent("cart", updatedCart);
       return updatedCart;
     });
-  };//IDEM QUE LES FAVORIS
+  };
 
-  // Filtrage des voitures par modèle, prix et année
+  const removeFromFavorites = (id: number) => {
+    setFavorites((prev) => {
+      const updatedFavorites = prev.filter((item) => item !== id);
+      updateLocalStorageAndDispatchEvent("favorites", updatedFavorites);
+      return updatedFavorites;
+    });
+  };
+
+  const removeFromCart = (id: number) => {
+    setCart((prev) => {
+      const updatedCart = prev.filter((item) => item !== id);
+      updateLocalStorageAndDispatchEvent("cart", updatedCart);
+      return updatedCart;
+    });
+  };
+
+  // Filtered cars logic
   const filteredCars = cars.filter((car) => {
     const matchesSearchTerm = car.model
-      .toLowerCase()//TOUT TRANSFOME EN MINUSCULE POUR EVITER LES PROBLEMES DE CASSSE
+      .toLowerCase()
       .includes(searchTerm.toLowerCase());
 
     const matchesPrice =
@@ -94,23 +129,66 @@ const CarsPage = () => {
       selectedYearRange === "all"
         ? true
         : selectedYearRange === "new"
-        ? car.year >= 2000 
+        ? car.year >= 2000
         : selectedYearRange === "between"
-        ? car.year >= 1990 && car.year <= 2000 
+        ? car.year >= 1990 && car.year <= 2000
         : selectedYearRange === "old"
         ? car.year <= 1990
         : true;
 
-    return matchesSearchTerm && matchesPrice && matchesYear;//Le return est utilisé pour renvoyer un tableau filtré qui ne contient que les éléments qui respectent la condition définie dans filter()
+    return matchesSearchTerm && matchesPrice && matchesYear;
   });
+
+  // Get all favorites cars
+  const favoriteCars = cars.filter(car => favorites.includes(car.id));
   
+  // Get all cart cars
+  const cartCars = cars.filter(car => cart.includes(car.id));
+  
+  // Calculate cart total
+  const cartTotal = cartCars.reduce((total, car) => total + car.price, 0);
 
   return (
     <div className="min-h-screen p-6 mt-40 bg-[url('/image/DALL·E 2025-03-22 10.41.31 - A stylish and modern garage-themed background for a car dealership, without any cars. The scene features a sleek, well-lit showroom with polished conc.webp')] bg-cover bg-center">
-
       <h1 className="text-4xl font-bold text-center uppercase tracking-wider mb-5">
         Our Collection
       </h1>
+      
+      
+      <div className="fixed top-9 left-5 sm:left-auto sm:right-40 z-50 flex gap-4">
+
+        <button
+          onClick={() => {
+            setShowFavorites(true);
+            setShowCart(false);
+          }}
+          className="relative bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition-colors"
+        >
+          <FontAwesomeIcon icon={faHeart} className="text-red-500 w-6 h-6" />
+          {favorites.length > 0 && (
+            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+              {favorites.length}
+            </span>
+          )}
+        </button>
+        
+        <button
+          onClick={() => {
+            setShowCart(true);
+            setShowFavorites(false);
+          }}
+          className="relative bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition-colors"
+        >
+          <FontAwesomeIcon icon={faShoppingBag} className="text-black w-6 h-6" />
+          {cart.length > 0 && (
+            <span className="absolute -top-1 -right-1 bg-black text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+              {cart.length}
+            </span>
+          )}
+        </button>
+      </div>
+      
+     
       <div className="flex justify-end mb-20">
         <div className="relative w-full max-w-md">
           <input
@@ -127,7 +205,6 @@ const CarsPage = () => {
         </div>
 
         <div className="ml-6 flex gap-4">
-          {/* Filtre par prix */}
           <select
             value={selectedPriceRange}
             onChange={(e) => setSelectedPriceRange(e.target.value)}
@@ -139,7 +216,6 @@ const CarsPage = () => {
             <option value="high">Above 50,000€</option>
           </select>
 
-          {/* Filtre par année */}
           <select
             value={selectedYearRange}
             onChange={(e) => setSelectedYearRange(e.target.value)}
@@ -153,6 +229,7 @@ const CarsPage = () => {
         </div>
       </div>
 
+   
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-4">
         {filteredCars.map((car, index) => (
           <CarCard
@@ -166,6 +243,153 @@ const CarsPage = () => {
           />
         ))}
       </div>
+      
+      
+      <AnimatePresence>
+        {showFavorites && (
+          <motion.div
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "tween" }}
+            className="fixed top-0 right-0 h-full w-full sm:w-96 bg-white shadow-xl z-50 overflow-y-auto"
+          >
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold flex items-center">
+                  <FontAwesomeIcon icon={faHeart} className="text-red-500 mr-3" />
+                  Favorites ({favoriteCars.length})
+                </h2>
+                <button 
+                  onClick={() => setShowFavorites(false)}
+                  className="text-gray-500 hover:text-gray-800 transition-colors"
+                >
+                  <FontAwesomeIcon icon={faTimes} className="w-6 h-6" />
+                </button>
+              </div>
+              
+              {favoriteCars.length === 0 ? (
+                <div className="text-center py-8">
+                  <p className="text-gray-500">No favorites yet</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {favoriteCars.map(car => (
+                    <div key={car.id} className="flex bg-gray-100 rounded-lg overflow-hidden">
+                      <div className="w-24 h-24 flex-shrink-0">
+                        <img src={car.image} alt={car.model} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="p-3 flex-grow">
+                        <h3 className="font-semibold">{car.model}</h3>
+                        <p className="text-sm text-gray-600">{car.year}</p>
+                        <p className="font-medium">{car.price.toLocaleString()} €</p>
+                      </div>
+                      <div className="p-2 flex flex-col justify-between">
+                        <button 
+                          onClick={() => removeFromFavorites(car.id)}
+                          className="text-red-500 hover:text-red-700 transition-colors p-2"
+                        >
+                          <FontAwesomeIcon icon={faTrash} />
+                        </button>
+                        <button 
+                          onClick={() => {
+                            if (!cart.includes(car.id)) {
+                              toggleCart(car.id);
+                            }
+                          }}
+                          className={`p-2 ${cart.includes(car.id) ? 'text-gray-400' : 'text-black hover:text-gray-700'} transition-colors`}
+                        >
+                          <FontAwesomeIcon icon={faShoppingBag} />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      
+
+      <AnimatePresence>
+        {showCart && (
+          <motion.div
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "tween" }}
+            className="fixed top-0 right-0 h-full w-full sm:w-96 bg-white shadow-xl z-50 overflow-y-auto"
+          >
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold flex items-center">
+                  <FontAwesomeIcon icon={faShoppingBag} className="text-black mr-3" />
+                  Cart ({cartCars.length})
+                </h2>
+                <button 
+                  onClick={() => setShowCart(false)}
+                  className="text-gray-500 hover:text-gray-800 transition-colors"
+                >
+                  <FontAwesomeIcon icon={faTimes} className="w-6 h-6" />
+                </button>
+              </div>
+              
+              {cartCars.length === 0 ? (
+                <div className="text-center py-8">
+                  <p className="text-gray-500">Your cart is empty</p>
+                </div>
+              ) : (
+                <>
+                  <div className="space-y-4 mb-6">
+                    {cartCars.map(car => (
+                      <div key={car.id} className="flex bg-gray-100 rounded-lg overflow-hidden">
+                        <div className="w-24 h-24 flex-shrink-0">
+                          <img src={car.image} alt={car.model} className="w-full h-full object-cover" />
+                        </div>
+                        <div className="p-3 flex-grow">
+                          <h3 className="font-semibold">{car.model}</h3>
+                          <p className="text-sm text-gray-600">{car.year}</p>
+                          <p className="font-medium">{car.price.toLocaleString()} €</p>
+                        </div>
+                        <div className="p-2 flex flex-col justify-between">
+                          <button 
+                            onClick={() => removeFromCart(car.id)}
+                            className="text-red-500 hover:text-red-700 transition-colors p-2"
+                          >
+                            <FontAwesomeIcon icon={faTrash} />
+                          </button>
+                          <button 
+                            onClick={() => {
+                              if (!favorites.includes(car.id)) {
+                                toggleFavorite(car.id);
+                              }
+                            }}
+                            className={`p-2 ${favorites.includes(car.id) ? 'text-red-500' : 'text-gray-500 hover:text-red-500'} transition-colors`}
+                          >
+                            <FontAwesomeIcon icon={faHeart} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                 
+                  <div className="border-t pt-4">
+                    <div className="flex justify-between items-center mb-4">
+                      <span className="font-semibold text-lg">Total:</span>
+                      <span className="font-bold text-xl">{cartTotal.toLocaleString()} €</span>
+                    </div>
+                    <button className="w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors flex items-center justify-center">
+                      Checkout <FontAwesomeIcon icon={faChevronRight} className="ml-2" />
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
@@ -196,7 +420,7 @@ const CarCard: React.FC<{
       </Link>
 
       <h2 className="text-xl font-semibold text-gray-800 mb-2">{car.model}</h2>
-      <p className="text-lg font-medium text-gray-600 mb-4">{car.price} €</p>
+      <p className="text-lg font-medium text-gray-600 mb-4">{car.price.toLocaleString()} €</p>
 
       <div className="flex gap-4">
         <button
